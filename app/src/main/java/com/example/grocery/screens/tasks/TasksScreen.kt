@@ -39,10 +39,7 @@ import com.example.grocery.theme.MakeItSoTheme
 
 @Composable
 @ExperimentalMaterialApi
-fun TasksScreen(
-  openScreen: (String) -> Unit,
-  viewModel: TasksViewModel = hiltViewModel()
-) {
+fun TasksScreen(openScreen: (String) -> Unit, viewModel: TasksViewModel = hiltViewModel()) {
   val tasks = viewModel.tasks.collectAsStateWithLifecycle(emptyList())
   val options by viewModel.options
 
@@ -86,9 +83,7 @@ fun TasksScreenContent(
       }
     }
   ) {
-    Column(modifier = Modifier
-      .fillMaxWidth()
-      .fillMaxHeight()) {
+    Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
       ActionToolbar(
         title = AppText.tasks,
         modifier = Modifier.toolbarActions(),
@@ -118,11 +113,7 @@ fun TasksScreenContent(
 @ExperimentalMaterialApi
 @Composable
 fun TasksScreenPreview() {
-  val task = Task(
-    title = "Task title",
-    flag = true,
-    completed = true
-  )
+  val task = Task(title = "Task title", flag = true, completed = true)
 
   val options = TaskActionOption.getOptions(hasEditOption = true)
 
@@ -130,12 +121,12 @@ fun TasksScreenPreview() {
     TasksScreenContent(
       tasks = listOf(task),
       options = options,
-      onAddClick = { },
-      onStatsClick = { },
-      onSettingsClick = { },
-      onTaskCheckChange = { },
+      onAddClick = {},
+      onStatsClick = {},
+      onSettingsClick = {},
+      onTaskCheckChange = {},
       onTaskActionClick = { _, _, _ -> },
-      openScreen = { }
+      openScreen = {}
     )
   }
 }

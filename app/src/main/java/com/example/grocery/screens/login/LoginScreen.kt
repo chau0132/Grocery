@@ -60,10 +60,7 @@ fun LoginScreenContent(
   BasicToolbar(AppText.login_details)
 
   Column(
-    modifier = modifier
-      .fillMaxWidth()
-      .fillMaxHeight()
-      .verticalScroll(rememberScrollState()),
+    modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
@@ -72,26 +69,22 @@ fun LoginScreenContent(
 
     BasicButton(AppText.sign_in, Modifier.basicButton()) { onSignInClick() }
 
-    BasicTextButton(AppText.forgot_password, Modifier.textButton()) {
-      onForgotPasswordClick()
-    }
+    BasicTextButton(AppText.forgot_password, Modifier.textButton()) { onForgotPasswordClick() }
   }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-  val uiState = LoginUiState(
-    email = "email@test.com"
-  )
+  val uiState = LoginUiState(email = "email@test.com")
 
   MakeItSoTheme {
     LoginScreenContent(
       uiState = uiState,
-      onEmailChange = { },
-      onPasswordChange = { },
-      onSignInClick = { },
-      onForgotPasswordClick = { }
+      onEmailChange = {},
+      onPasswordChange = {},
+      onSignInClick = {},
+      onForgotPasswordClick = {}
     )
   }
 }

@@ -16,7 +16,4 @@ limitations under the License.
 
 package com.example.grocery.model
 
-data class User(
-    val id: String = "",
-    val isAnonymous: Boolean = true
-)
+data class User(val id: String = "", val isAnonymous: Boolean = true)

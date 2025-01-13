@@ -60,10 +60,7 @@ fun SignUpScreenContent(
   BasicToolbar(AppText.create_account)
 
   Column(
-    modifier = modifier
-      .fillMaxWidth()
-      .fillMaxHeight()
-      .verticalScroll(rememberScrollState()),
+    modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
@@ -71,26 +68,22 @@ fun SignUpScreenContent(
     PasswordField(uiState.password, onPasswordChange, fieldModifier)
     RepeatPasswordField(uiState.repeatPassword, onRepeatPasswordChange, fieldModifier)
 
-    BasicButton(AppText.create_account, Modifier.basicButton()) {
-      onSignUpClick()
-    }
+    BasicButton(AppText.create_account, Modifier.basicButton()) { onSignUpClick() }
   }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-  val uiState = SignUpUiState(
-    email = "email@test.com"
-  )
+  val uiState = SignUpUiState(email = "email@test.com")
 
   MakeItSoTheme {
     SignUpScreenContent(
       uiState = uiState,
-      onEmailChange = { },
-      onPasswordChange = { },
-      onRepeatPasswordChange = { },
-      onSignUpClick = { }
+      onEmailChange = {},
+      onPasswordChange = {},
+      onRepeatPasswordChange = {},
+      onSignUpClick = {}
     )
   }
 }

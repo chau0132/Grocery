@@ -24,10 +24,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class StatsViewModel @Inject constructor(
-  logService: LogService,
-  private val storageService: StorageService
-) : GroceryAppViewModel(logService) {
+class StatsViewModel
+@Inject
+constructor(logService: LogService, private val storageService: StorageService) :
+  GroceryAppViewModel(logService) {
   val uiState = mutableStateOf(StatsUiState())
 
   init {
@@ -35,11 +35,12 @@ class StatsViewModel @Inject constructor(
   }
 
   private suspend fun loadStats() {
-    val updatedUiState = StatsUiState(
-      completedTasksCount = storageService.getCompletedTasksCount(),
-      importantCompletedTasksCount = storageService.getImportantCompletedTasksCount(),
-      mediumHighTasksToCompleteCount = storageService.getMediumHighTasksToCompleteCount()
-    )
+    val updatedUiState =
+      StatsUiState(
+        completedTasksCount = storageService.getCompletedTasksCount(),
+        importantCompletedTasksCount = storageService.getImportantCompletedTasksCount(),
+        mediumHighTasksToCompleteCount = storageService.getMediumHighTasksToCompleteCount()
+      )
 
     uiState.value = updatedUiState
   }

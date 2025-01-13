@@ -36,24 +36,16 @@ import com.example.grocery.theme.MakeItSoTheme
 
 @ExperimentalMaterialApi
 @Composable
-fun StatsScreen(
-  viewModel: StatsViewModel = hiltViewModel()
-) {
+fun StatsScreen(viewModel: StatsViewModel = hiltViewModel()) {
   val uiState by viewModel.uiState
 
   StatsScreenContent(uiState = uiState)
 }
 
 @Composable
-fun StatsScreenContent(
-  modifier: Modifier = Modifier,
-  uiState: StatsUiState
-) {
+fun StatsScreenContent(modifier: Modifier = Modifier, uiState: StatsUiState) {
   Column(
-    modifier = modifier
-      .fillMaxWidth()
-      .fillMaxHeight()
-      .verticalScroll(rememberScrollState()),
+    modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     BasicToolbar(AppText.stats)
@@ -61,8 +53,14 @@ fun StatsScreenContent(
     Spacer(modifier = Modifier.smallSpacer())
 
     StatsItem(titleRes = AppText.completed_tasks, value = uiState.completedTasksCount)
-    StatsItem(titleRes = AppText.important_completed_tasks, value = uiState.importantCompletedTasksCount)
-    StatsItem(titleRes = AppText.medium_high_tasks_to_complete, value = uiState.mediumHighTasksToCompleteCount)
+    StatsItem(
+      titleRes = AppText.important_completed_tasks,
+      value = uiState.importantCompletedTasksCount
+    )
+    StatsItem(
+      titleRes = AppText.medium_high_tasks_to_complete,
+      value = uiState.mediumHighTasksToCompleteCount
+    )
   }
 }
 
@@ -76,10 +74,7 @@ fun StatsItem(titleRes: Int, value: Int) {
       verticalAlignment = Alignment.CenterVertically,
       modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 24.dp),
     ) {
-      Column(
-        modifier = Modifier.weight(1f),
-        horizontalAlignment = Alignment.CenterHorizontally
-      ) {
+      Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
           text = stringResource(id = titleRes),
           style = MaterialTheme.typography.subtitle1,
@@ -97,9 +92,5 @@ fun StatsItem(titleRes: Int, value: Int) {
 @Preview(showBackground = true)
 @Composable
 fun StatsScreenPreview() {
-  MakeItSoTheme {
-    StatsScreenContent(
-      uiState = StatsUiState()
-    )
-  }
+  MakeItSoTheme { StatsScreenContent(uiState = StatsUiState()) }
 }

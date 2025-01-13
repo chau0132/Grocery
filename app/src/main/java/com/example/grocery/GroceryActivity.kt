@@ -17,8 +17,8 @@ limitations under the License.
 package com.example.grocery
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
 import android.os.Bundle
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,18 +43,20 @@ class GroceryActivity : AppCompatActivity() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PhotoPickerDemoScreen() {
-  //The URI of the photo that the user has picked
+  // The URI of the photo that the user has picked
   var photoUri: List<Uri>? by remember { mutableStateOf(null) }
 
-  //The launcher we will use for the PickVisualMedia contract.
-  //When .launch()ed, this will display the photo picker.
+  // The launcher we will use for the PickVisualMedia contract.
+  // When .launch()ed, this will display the photo picker.
   val launcher =
     rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uri ->
-      //When the user has selected a photo, its URI is returned here
+      // When the user has selected a photo, its URI is returned here
       photoUri = uri
     }
-  GroceryApp(photoUri = photoUri, openLibrary = {launcher.launch(PickVisualMediaRequest(
-    ActivityResultContracts.PickVisualMedia.ImageAndVideo))})
+  GroceryApp(
+    photoUri = photoUri,
+    openLibrary = {
+      launcher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+    }
+  )
 }
-
-

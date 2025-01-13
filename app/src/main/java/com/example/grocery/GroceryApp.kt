@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import com.example.grocery.R.string as AppText
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -38,6 +37,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.grocery.R.string as AppText
 import com.example.grocery.common.composable.PermissionDialog
 import com.example.grocery.common.composable.RationaleDialog
 import com.example.grocery.common.snackbar.SnackbarManager
@@ -84,7 +84,7 @@ fun GroceryApp(photoUri: List<Uri>?, openLibrary: () -> Unit) {
           startDestination = SPLASH_SCREEN,
           modifier = Modifier.padding(innerPaddingModifier)
         ) {
-          groceryGraph(photoUri = photoUri, openLibrary = openLibrary,appState)
+          groceryGraph(photoUri = photoUri, openLibrary = openLibrary, appState)
         }
       }
     }
@@ -99,7 +99,11 @@ fun RequestNotificationPermissionDialog() {
 
   if (!permissionState.status.isGranted) {
     if (permissionState.status.shouldShowRationale) RationaleDialog()
-    else PermissionDialog( text = AppText.request_notification_permission, onRequestPermission = { permissionState.launchPermissionRequest() })
+    else
+      PermissionDialog(
+        text = AppText.request_notification_permission,
+        onRequestPermission = { permissionState.launchPermissionRequest() }
+      )
   }
 }
 
@@ -111,7 +115,11 @@ fun RequestMediaPermissionDialog() {
 
   if (!permissionState.status.isGranted) {
     if (permissionState.status.shouldShowRationale) RationaleDialog()
-    else PermissionDialog( text = AppText.request_media_permission, onRequestPermission = { permissionState.launchPermissionRequest() })
+    else
+      PermissionDialog(
+        text = AppText.request_media_permission,
+        onRequestPermission = { permissionState.launchPermissionRequest() }
+      )
   }
 }
 
@@ -135,7 +143,11 @@ fun resources(): Resources {
 }
 
 @ExperimentalMaterialApi
-fun NavGraphBuilder.groceryGraph(photoUri: List<Uri>?, openLibrary: () -> Unit, appState: GroceryAppState) {
+fun NavGraphBuilder.groceryGraph(
+  photoUri: List<Uri>?,
+  openLibrary: () -> Unit,
+  appState: GroceryAppState
+) {
   composable(SPLASH_SCREEN) {
     SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
   }
@@ -147,9 +159,7 @@ fun NavGraphBuilder.groceryGraph(photoUri: List<Uri>?, openLibrary: () -> Unit, 
     )
   }
 
-  composable(STATS_SCREEN) {
-    StatsScreen()
-  }
+  composable(STATS_SCREEN) { StatsScreen() }
 
   composable(LOGIN_SCREEN) {
     LoginScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
@@ -163,10 +173,13 @@ fun NavGraphBuilder.groceryGraph(photoUri: List<Uri>?, openLibrary: () -> Unit, 
 
   composable(
     route = "$EDIT_TASK_SCREEN$TASK_ID_ARG",
-    arguments = listOf(navArgument(TASK_ID) {
-      nullable = true
-      defaultValue = null
-    })
+    arguments =
+      listOf(
+        navArgument(TASK_ID) {
+          nullable = true
+          defaultValue = null
+        }
+      )
   ) {
     EditTaskScreen(
       photoUri = photoUri,

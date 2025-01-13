@@ -33,58 +33,68 @@ import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.tasks.await
 
-class StorageServiceImpl @Inject constructor(
+class StorageServiceImpl
+@Inject
+constructor(
   private val firestore: FirebaseFirestore,
   private val auth: AccountService,
-  ) : StorageService {
+) : StorageService {
 
   private val storage: FirebaseStorage = Firebase.storage
-  private val collection get() = firestore.collection(TASK_COLLECTION)
-    .whereEqualTo(USER_ID_FIELD, auth.currentUserId)
+  private val collection
+    get() = firestore.collection(TASK_COLLECTION).whereEqualTo(USER_ID_FIELD, auth.currentUserId)
 
   override suspend fun fileUpload(image: Images) {
     val storageRef = storage.reference
     if (image.uri != null) {
       for (ur in image.uri) {
-        val riversRef = storageRef.child("image/" + auth.currentUserId + "/" + image.filePath + "/" + "${ur.lastPathSegment}" + ".jpg")
+        val riversRef =
+          storageRef.child(
+            "image/" +
+              auth.currentUserId +
+              "/" +
+              image.filePath +
+              "/" +
+              "${ur.lastPathSegment}" +
+              ".jpg"
+          )
         val uploadTask = riversRef.putFile(ur)
 
         // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener { exception ->
-          // Handle unsuccessful uploads
-          Log.e("UploadError", "Upload failed", exception)
-        }.addOnSuccessListener { taskSnapshot ->
-          // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-          // ...
-          val metadata = taskSnapshot.metadata
-          Log.d("UploadSuccess", "Upload succeeded: ${metadata.toString()}")
-        }
+        uploadTask
+          .addOnFailureListener { exception ->
+            // Handle unsuccessful uploads
+            Log.e("UploadError", "Upload failed", exception)
+          }
+          .addOnSuccessListener { taskSnapshot ->
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            val metadata = taskSnapshot.metadata
+            Log.d("UploadSuccess", "Upload succeeded: ${metadata.toString()}")
+          }
       }
     }
   }
-    override suspend fun getUri(filePath: String): List<Uri> {
+  override suspend fun getUri(filePath: String): List<Uri> {
 
-        val storageRef = storage.reference
-        val uriPath = storageRef.child("image/" + auth.currentUserId + "/" + filePath)
-        val uris = mutableListOf<Uri>()
-        uriPath.listAll().addOnSuccessListener { listResult ->
-          listResult.items.map { it.downloadUrl.addOnSuccessListener {uri ->
-            uris.add(uri)
-            }
-          }
-          Log.d("Uploaddddd",uris.toString())
-        }
-          .addOnFailureListener{
-            Log.d("Failure","")
-          }
-        return uris
-    }
+    val storageRef = storage.reference
+    val uriPath = storageRef.child("image/" + auth.currentUserId + "/" + filePath)
+    val uris = mutableListOf<Uri>()
+    uriPath
+      .listAll()
+      .addOnSuccessListener { listResult ->
+        listResult.items.map { it.downloadUrl.addOnSuccessListener { uri -> uris.add(uri) } }
+        Log.d("Uploaddddd", uris.toString())
+      }
+      .addOnFailureListener { Log.d("Failure", "") }
+    return uris
+  }
 
   @OptIn(ExperimentalCoroutinesApi::class)
   override val tasks: Flow<List<Task>>
@@ -102,7 +112,7 @@ class StorageServiceImpl @Inject constructor(
 
   override suspend fun save(task: Task): String =
     trace(SAVE_TASK_TRACE) {
-     val updatedTask = task.copy(userId = auth.currentUserId)
+      val updatedTask = task.copy(userId = auth.currentUserId)
       firestore.collection(TASK_COLLECTION).add(updatedTask).await().id
     }
 
@@ -121,23 +131,26 @@ class StorageServiceImpl @Inject constructor(
   }
 
   override suspend fun getImportantCompletedTasksCount(): Int {
-    val query = collection.where(
-      Filter.and(
-        Filter.equalTo(COMPLETED_FIELD, true),
-        Filter.or(
-          Filter.equalTo(PRIORITY_FIELD, Priority.High.name),
-          Filter.equalTo(FLAG_FIELD, true)
+    val query =
+      collection.where(
+        Filter.and(
+          Filter.equalTo(COMPLETED_FIELD, true),
+          Filter.or(
+            Filter.equalTo(PRIORITY_FIELD, Priority.High.name),
+            Filter.equalTo(FLAG_FIELD, true)
+          )
         )
       )
-    )
 
     return query.count().get(AggregateSource.SERVER).await().count.toInt()
   }
 
   override suspend fun getMediumHighTasksToCompleteCount(): Int {
-    val query = collection
-      .whereEqualTo(COMPLETED_FIELD, false)
-      .whereIn(PRIORITY_FIELD, listOf(Priority.Medium.name, Priority.High.name)).count()
+    val query =
+      collection
+        .whereEqualTo(COMPLETED_FIELD, false)
+        .whereIn(PRIORITY_FIELD, listOf(Priority.Medium.name, Priority.High.name))
+        .count()
 
     return query.get(AggregateSource.SERVER).await().count.toInt()
   }

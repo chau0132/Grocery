@@ -17,8 +17,8 @@ limitations under the License.
 package com.example.grocery.model.service.impl
 
 import com.example.grocery.model.service.LogService
-import com.google.firebase.crashlytics.crashlytics
 import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import javax.inject.Inject
 
 class LogServiceImpl @Inject constructor() : LogService {

@@ -34,7 +34,9 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class EditTaskViewModel @Inject constructor(
+class EditTaskViewModel
+@Inject
+constructor(
   savedStateHandle: SavedStateHandle,
   logService: LogService,
   private val storageService: StorageService,
@@ -42,14 +44,13 @@ class EditTaskViewModel @Inject constructor(
   val task = mutableStateOf(Task())
   val image = mutableStateOf(Images())
   private val _imageUris = MutableLiveData<List<Uri>>()
-  private val imageUris: LiveData<List<Uri>> get() = _imageUris
+  private val imageUris: LiveData<List<Uri>>
+    get() = _imageUris
 
   init {
     val taskId = savedStateHandle.get<String>(TASK_ID)
     if (taskId != null) {
-      launchCatching {
-        task.value = storageService.getTask(taskId.idFromParameter()) ?: Task()
-      }
+      launchCatching { task.value = storageService.getTask(taskId.idFromParameter()) ?: Task() }
     }
   }
 
@@ -94,9 +95,7 @@ class EditTaskViewModel @Inject constructor(
   }
 
   fun getImage(): List<Uri>? {
-    launchCatching {
-      _imageUris.postValue(storageService.getUri(task.value.uriFile))
-    }
+    launchCatching { _imageUris.postValue(storageService.getUri(task.value.uriFile)) }
     return imageUris.value
   }
 

@@ -17,9 +17,9 @@ limitations under the License.
 package com.example.grocery.model.service
 
 import android.net.Uri
+import com.example.grocery.model.Images
 import com.example.grocery.model.Task
 import kotlinx.coroutines.flow.Flow
-import com.example.grocery.model.Images
 
 interface StorageService {
   val tasks: Flow<List<Task>>

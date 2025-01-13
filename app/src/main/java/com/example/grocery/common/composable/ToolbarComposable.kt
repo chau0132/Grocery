@@ -52,11 +52,17 @@ fun ActionToolbar(
           modifier = Modifier.wrapContentSize(),
         ) {
           IconButton(onClick = primaryAction) {
-            Icon(painter = painterResource(primaryActionIcon), contentDescription = "Primary Action")
+            Icon(
+              painter = painterResource(primaryActionIcon),
+              contentDescription = "Primary Action"
+            )
           }
           if (secondaryAction != null && secondaryActionIcon != null) {
             IconButton(onClick = secondaryAction) {
-              Icon(painter = painterResource(secondaryActionIcon), contentDescription = "Secondary Action")
+              Icon(
+                painter = painterResource(secondaryActionIcon),
+                contentDescription = "Secondary Action"
+              )
             }
           }
         }

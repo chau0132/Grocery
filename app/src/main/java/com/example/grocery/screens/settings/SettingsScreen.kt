@@ -62,10 +62,7 @@ fun SettingsScreenContent(
   onDeleteMyAccountClick: () -> Unit
 ) {
   Column(
-    modifier = modifier
-      .fillMaxWidth()
-      .fillMaxHeight()
-      .verticalScroll(rememberScrollState()),
+    modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     BasicToolbar(AppText.settings)
@@ -73,9 +70,7 @@ fun SettingsScreenContent(
     Spacer(modifier = Modifier.spacer())
 
     if (uiState.isAnonymousAccount) {
-      RegularCardEditor(AppText.sign_in, AppIcon.ic_sign_in, "", Modifier.card()) {
-        onLoginClick()
-      }
+      RegularCardEditor(AppText.sign_in, AppIcon.ic_sign_in, "", Modifier.card()) { onLoginClick() }
 
       RegularCardEditor(AppText.create_account, AppIcon.ic_create_account, "", Modifier.card()) {
         onSignUpClick()
@@ -151,10 +146,10 @@ fun SettingsScreenPreview() {
   MakeItSoTheme {
     SettingsScreenContent(
       uiState = uiState,
-      onLoginClick = { },
-      onSignUpClick = { },
-      onSignOutClick = { },
-      onDeleteMyAccountClick = { }
+      onLoginClick = {},
+      onSignUpClick = {},
+      onSignOutClick = {},
+      onDeleteMyAccountClick = {}
     )
   }
 }

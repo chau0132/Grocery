@@ -97,10 +97,7 @@ fun EditTaskScreenContent(
   activity: AppCompatActivity?
 ) {
   Column(
-    modifier = modifier
-      .fillMaxWidth()
-      .fillMaxHeight()
-      .verticalScroll(rememberScrollState()),
+    modifier = modifier.fillMaxWidth().fillMaxHeight().verticalScroll(rememberScrollState()),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     ActionToolbar(
@@ -120,21 +117,18 @@ fun EditTaskScreenContent(
     Spacer(modifier = Modifier.spacer())
     CardEditors(task, onDateChange, onTimeChange, activity)
     CardSelectors(task, onPriorityChange, onFlagToggle)
-      BasicButton(AppText.library, Modifier.basicButton()) {
-        openLibrary()
-        onUriChange(photoUri)
-      }
-      val photos = getImage?.let { it() }
-      if (photos != null) {
-        if (photos.isNotEmpty()) {
-          for (photo in photos) {
-            AsyncImage(
-              model = photo,
-              contentDescription = ""
-            )
-          }
+    BasicButton(AppText.library, Modifier.basicButton()) {
+      openLibrary()
+      onUriChange(photoUri)
+    }
+    val photos = getImage?.let { it() }
+    if (photos != null) {
+      if (photos.isNotEmpty()) {
+        for (photo in photos) {
+          AsyncImage(model = photo, contentDescription = "")
         }
       }
+    }
 
     Spacer(modifier = Modifier.spacer())
   }
@@ -199,13 +193,9 @@ private fun showTimePicker(activity: AppCompatActivity?, onTimeChange: (Int, Int
 @ExperimentalMaterialApi
 @Composable
 fun EditTaskScreenPreview() {
-  val task = Task(
-    title = "Task title",
-    description = "Task description",
-    flag = true
-  )
+  val task = Task(title = "Task title", description = "Task description", flag = true)
 
-  val image = Images( uri = null)
+  val image = Images(uri = null)
 
   MakeItSoTheme {
     EditTaskScreenContent(
@@ -213,16 +203,16 @@ fun EditTaskScreenPreview() {
       task = task,
       image = image,
       getImage = null,
-      openLibrary = { },
-      onDoneClick = { },
-      onUriChange = { },
-      onTitleChange = { },
-      onDescriptionChange = { },
-      onUrlChange = { },
-      onDateChange = { },
+      openLibrary = {},
+      onDoneClick = {},
+      onUriChange = {},
+      onTitleChange = {},
+      onDescriptionChange = {},
+      onUrlChange = {},
+      onDateChange = {},
       onTimeChange = { _, _ -> },
-      onPriorityChange = { },
-      onFlagToggle = { },
+      onPriorityChange = {},
+      onFlagToggle = {},
       activity = null
     )
   }

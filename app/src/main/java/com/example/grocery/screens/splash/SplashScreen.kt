@@ -57,11 +57,11 @@ fun SplashScreenContent(
 ) {
   Column(
     modifier =
-    modifier
-      .fillMaxWidth()
-      .fillMaxHeight()
-      .background(color = MaterialTheme.colors.background)
-      .verticalScroll(rememberScrollState()),
+      modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .background(color = MaterialTheme.colors.background)
+        .verticalScroll(rememberScrollState()),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
@@ -83,10 +83,5 @@ fun SplashScreenContent(
 @Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview() {
-  MakeItSoTheme {
-    SplashScreenContent(
-      onAppStart = { },
-      shouldShowError = true
-    )
-  }
+  MakeItSoTheme { SplashScreenContent(onAppStart = {}, shouldShowError = true) }
 }
