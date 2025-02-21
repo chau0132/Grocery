@@ -53,6 +53,11 @@ android {
     packaging {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
+    lint {
+        sarifReport = true
+        // optional, otherwise build/reports/lint-results-debug.sarif
+        sarifOutput = file("build/reports/lint.sarif")
+    }
 }
 
 ktfmt {
