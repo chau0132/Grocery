@@ -16,6 +16,8 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: read
+      security-events: write
+      actions: read
 
     steps:
     - uses: actions/checkout@v4
@@ -33,6 +35,15 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        # Path to SARIF file relative to the root of the repository
+        sarif_file: /app/build/reports/lint.sarif
+        # Optional category for the results
+        # Used to differentiate multiple results for one commit
+        category: lint-analysis
+
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
@@ -49,8 +60,6 @@ jobs:
     runs-on: windows-latest
     permissions:
       contents: write
-      security-events: write
-      actions: read
 
     steps:
     - uses: actions/checkout@v4
@@ -64,12 +73,3 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
     - name: Generate and submit dependency graph
       uses: gradle/actions/dependency-submission@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-
-    - name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        # Path to SARIF file relative to the root of the repository
-        sarif_file: /app/build/reports/lint.sarif
-        # Optional category for the results
-        # Used to differentiate multiple results for one commit
-        category: lint-analysis
