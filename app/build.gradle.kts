@@ -87,6 +87,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.30.1")
     implementation("com.google.dagger:hilt-android:2.49")
     implementation("androidx.test:runner:1.6.2")
+    implementation("commons-lang:commons-lang:1.0")
     ksp("com.google.dagger:hilt-compiler:2.47")
 
     //Firebase
